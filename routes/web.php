@@ -3,6 +3,7 @@
 use Illuminate\Support\Facades\Route;
 use Illuminate\Support\Facades\DB;
 use App\Http\Controllers\TaskController;
+use App\Http\Controllers\UsersController;
 
 Route::get('/', function () {
     return view('welcome');
@@ -44,5 +45,15 @@ Route::post('update', [TaskController::class, 'update']);
 Route::get('app', function () {
     return view('layouts.app');
 });
+
+Route::get('users', [UsersController::class, 'index']);
+
+Route::post('createUser', [UsersController::class, 'create']);
+
+Route::post('deleteUser/{id}', [UsersController::class, 'destroy']);
+
+Route::post('editUser/{id}', [UsersController::class, 'edit']);
+
+Route::post('updateUser', [UsersController::class, 'update']);
 
 
