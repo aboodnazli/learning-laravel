@@ -15,9 +15,12 @@ class TaskController extends Controller
 
         return view('tasks' ,compact('tasks'));
     }
-    public function create()
+    public function create(Request $request)
     {
-        $tasks_name=$_POST['name'];
+        $validated = $request->validate([
+            'name' => 'required|max:10|min:3',
+        ]);
+        $tasks_name=$request->name;
         //DB::table('tasks')->insert(['name'=>$tasks_name,]);
         $task=new Task();
         $task->name=$tasks_name;
@@ -34,6 +37,7 @@ class TaskController extends Controller
     }
     public function edit($id)
     {
+
        // $task=DB::table('tasks')->where('id',$id)->first();
         // $tasks=DB::table('tasks')->get();
         $tasks=Task::all() ;
@@ -41,8 +45,11 @@ class TaskController extends Controller
 
         return view('tasks' ,compact('task','tasks'));
     }
-    public function update()
+    public function update(Request $request)
     {
+        $validated = $request->validate([
+            'name' => 'required|max:10',
+        ]);
        // $tasks_name=$_POST['name'];
         // $id=$_POST['id'];
         // DB::table('tasks')->where('id',$id)->update(['name'=>$tasks_name,]);
@@ -52,5 +59,6 @@ class TaskController extends Controller
 
         return redirect(to : 'tasks');
     }
+  
 
 }

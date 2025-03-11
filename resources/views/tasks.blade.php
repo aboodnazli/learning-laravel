@@ -4,20 +4,26 @@
     <h1>Tasks List App</h1>
     <div class="offset-md-2 col-md-8">
         <div class="card">
-            @if (@isset($task))
+            @if (isset($task))
             <div class="card-header">
                 Update Task
             </div>
             <div class="card-body">
                 <!-- Update Task Form -->
-                <form action="{{url('update')}}" method="POST">
+                <form action="{{ url('update') }}" method="POST">
                     @csrf
-                    <input type="hidden" name="id" value="{{$task->id}}">
+                    <input type="hidden" name="id" value="{{ $task->id }}">
+
                     <!-- Task Name -->
                     <div class="mb-3">
                         <label for="task-name" class="form-label">Task</label>
-                        <input type="text" name="name" id="task-name" class="form-control" value="{{$task->name}}">
+                        <input type="text" name="name" id="task-name" class="form-control @error('name') is-invalid @enderror" value="{{ old('name', $task->name) }}" required>
                     </div>
+
+                    <!-- Error Message -->
+                    @error('name')
+                    <div class="alert alert-danger">{{ $message }}</div>
+                    @enderror
 
                     <!-- Update Task Button -->
                     <div>
@@ -27,11 +33,7 @@
                     </div>
                 </form>
             </div>
-
-
-
             @else
-
             <div class="card-header">
                 New Task
             </div>
@@ -42,8 +44,13 @@
                     <!-- Task Name -->
                     <div class="mb-3">
                         <label for="task-name" class="form-label">Task</label>
-                        <input type="text" name="name" id="task-name" class="form-control" value="">
+                        <input type="text" name="name" id="task-name" class="form-control @error('name') is-invalid @enderror" required>
                     </div>
+
+                    <!-- Error Message -->
+                    @error('name')
+                    <div class="alert alert-danger">{{ $message }}</div>
+                    @enderror
 
                     <!-- Add Task Button -->
                     <div>
@@ -53,9 +60,7 @@
                     </div>
                 </form>
             </div>
-
             @endif
-
         </div>
 
         <!-- Current Tasks -->
@@ -73,17 +78,16 @@
                     </thead>
                     <tbody>
                         @foreach($tasks as $task)
-
                         <tr>
-                            <td>{{$task->name}}</td>
+                            <td>{{ $task->name }}</td>
                             <td>
-                                <form action="/delete/{{$task->id}}" method="POST" class="d-inline">
+                                <form action="/delete/{{ $task->id }}" method="POST" class="d-inline">
                                     @csrf
                                     <button type="submit" class="btn btn-danger">
                                         <i class="fa fa-trash me-2"></i>Delete
                                     </button>
                                 </form>
-                                <form action="/edit/{{$task->id}}" method="POST" class="d-inline">
+                                <form action="/edit/{{ $task->id }}" method="POST" class="d-inline">
                                     @csrf
                                     <button type="submit" class="btn btn-info">
                                         <i class="fa fa-info me-2"></i>Edit
@@ -91,10 +95,7 @@
                                 </form>
                             </td>
                         </tr>
-
                         @endforeach
-
-
                     </tbody>
                 </table>
             </div>
@@ -102,5 +103,3 @@
     </div>
 </div>
 @endsection
-
-

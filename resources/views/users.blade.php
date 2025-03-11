@@ -12,26 +12,35 @@
                 <!-- Update user Form -->
                 <form action="{{url('updateUser')}}" method="POST">
                     @csrf
+                    @method('PATCH') <!-- Method Spoofing for PATCH -->
                     <input type="hidden" name="id" value="{{$user->id}}">
                     <!-- user Name -->
                     <div class="mb-3">
                         <label for="user-name" class="form-label">User Name</label>
-                        <input type="text" name="name" id="user-name" class="form-control" value="{{$user->name}}">
+                        <input type="text" name="name" id="user-name" class="form-control @error('name') is-invalid @enderror" value="{{$user->name}}" required>
+                        @error('name')
+                            <div class="alert alert-danger">{{ $message }}</div>
+                        @enderror
                     </div>
                     <!-- user email -->
                     <div class="mb-3">
                         <label for="user-email" class="form-label">Email</label>
-                        <input type="email" name="email" id="user-email" class="form-control" value="{{$user->email}}">
+                        <input type="email" name="email" id="user-email" class="form-control @error('email') is-invalid @enderror" value="{{$user->email}}" required>
+                        @error('email')
+                            <div class="alert alert-danger">{{ $message }}</div>
+                        @enderror
                     </div>
 
                     <!-- user password -->
                     <div class="mb-3">
                         <label for="user-password" class="form-label">Password</label>
-                        <input type="text" name="password" id="user-password" class="form-control" value="{{$user->password}}">
+                        <input type="password" name="password" id="user-password" class="form-control @error('password') is-invalid @enderror" value="{{$user->password}}" required>
+                        @error('password')
+                            <div class="alert alert-danger">{{ $message }}</div>
+                        @enderror
                     </div>
 
-
-                    <!-- Update Task Button -->
+                    <!-- Update User Button -->
                     <div>
                         <button type="submit" class="btn btn-primary">
                             <i class="fa fa-plus me-2"></i>Update User
@@ -39,11 +48,7 @@
                     </div>
                 </form>
             </div>
-
-
-
             @else
-
             <div class="card-header">
                 New User
             </div>
@@ -54,11 +59,28 @@
                     <!-- User Name -->
                     <div class="mb-3">
                         <label for="user-name" class="form-label">User Name</label>
-                        <input type="text" name="name" id="user-name" class="form-control" value="">
+                        <input type="text" name="name" id="user-name" class="form-control @error('name') is-invalid @enderror" value="" required>
+                        @error('name')
+                            <div class="alert alert-danger">{{ $message }}</div>
+                        @enderror
+                    </div>
+
+                    <!-- Email -->
+                    <div class="mb-3">
                         <label for="user-email" class="form-label">Email</label>
-                        <input type="email" name="email" id="user-email" class="form-control" value="">
+                        <input type="email" name="email" id="user-email" class="form-control @error('email') is-invalid @enderror" value="" required>
+                        @error('email')
+                            <div class="alert alert-danger">{{ $message }}</div>
+                        @enderror
+                    </div>
+
+                    <!-- Password -->
+                    <div class="mb-3">
                         <label for="user-password" class="form-label">Password</label>
-                        <input type="text" name="password" id="user-password" class="form-control" value="">
+                        <input type="password" name="password" id="user-password" class="form-control @error('password') is-invalid @enderror" value="" required>
+                        @error('password')
+                            <div class="alert alert-danger">{{ $message }}</div>
+                        @enderror
                     </div>
 
                     <!-- Add User Button -->
@@ -69,9 +91,7 @@
                     </div>
                 </form>
             </div>
-
             @endif
-
         </div>
 
         <!-- Current Users -->
@@ -89,7 +109,6 @@
                     </thead>
                     <tbody>
                         @foreach($users as $user)
-
                         <tr>
                             <td>{{$user->name}}</td>
                             <td>
@@ -99,7 +118,7 @@
                                         <i class="fa fa-trash me-2"></i>Delete
                                     </button>
                                 </form>
-                                <form action="/editUser/{{$user->id}}" method="POST" class="d-inline">
+                                <form action="/editUser/{{$user->id}}" method="GET" class="d-inline">
                                     @csrf
                                     <button type="submit" class="btn btn-info">
                                         <i class="fa fa-info me-2"></i>Edit
@@ -107,10 +126,7 @@
                                 </form>
                             </td>
                         </tr>
-
                         @endforeach
-
-
                     </tbody>
                 </table>
             </div>
@@ -118,5 +134,3 @@
     </div>
 </div>
 @endsection
-
-

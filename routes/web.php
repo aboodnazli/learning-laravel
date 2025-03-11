@@ -52,8 +52,8 @@ Route::post('createUser', [UsersController::class, 'create']);
 
 Route::post('deleteUser/{id}', [UsersController::class, 'destroy']);
 
-Route::post('editUser/{id}', [UsersController::class, 'edit']);
+Route::get('editUser/{id}', [UsersController::class, 'edit']);
 
-Route::post('updateUser', [UsersController::class, 'update']);
+Route::patch('updateUser', [UsersController::class, 'update']);
 
 
